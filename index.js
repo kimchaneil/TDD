@@ -1,5 +1,8 @@
-const math = require('./math.js');
+const fs = require('fs');
 
-const  result = math.sum(1,2);
+//const data = fs.readFileSync('./data.txt','utf8');
 
-console.log(result);
+const data = fs.readFile('./data.txt','utf8',function(err,data){
+   console.log(data);
+})
+//console.log (data)
