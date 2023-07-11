@@ -1,17 +1,18 @@
 const express = require('express');
-const morgan = require('morgan');
 const app = express();
-function logger(req,res,next){
-  console.log('i am logger')
-  next(); // next 함수가 없다면 다음 logger2가 작동하지 않음
+
+function commonmw(req,res,next){
+  console.log('commonmw')
+  next(new Error('error ouccered'));
 }
-function logger2(req,res,next){
-  console.log('i am logger 2')
+function errormw(err,req,res,next){
+  console.log(err.message)
+  // error 처리 구문
   next();
 }
-app.use(logger);
-app.use(logger2);
-app.use(morgan('dev'))
+
+app.use(commonmw)
+app.use(errormw)
 app.listen(3000,function(){
   console.log('Server is running');
 })
