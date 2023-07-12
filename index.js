@@ -8,7 +8,13 @@ var users = [
 ]
 app.use(morgan('dev'));
 app.get('/users',(req,res)=>{
-  res.json(users);
+  req.query.limit = req.query.limit || 10 ;
+  //const limit = req.query.limit; // "2"
+  const limit = parseInt(req.query.limit,10); // 2
+  if(Number.isNaN(limit)){
+    return res.status(400).end()
+  }
+  res.json(users.slice(0,limit));
 })
 app.listen(3000,()=>{
   console.log('server is running on 127.0.0.1:3000');
