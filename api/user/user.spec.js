@@ -1,8 +1,17 @@
 const app = require('../../')
 const request = require('supertest')
 const should = require('should')
+const models = require ('../../models')
 describe('GET /users는',()=> {
+    const users = [
+        {name : 'alice'},{name : 'bek'},{name : 'chris'},
+    ]
+    before(()=>models.sequelize.sync({force:true}))
+    before(()=>{
+        return models.User.bulkCreate(users)
+    })
     describe('성공시',()=>{
+        
         it('유저 객체를 담은 배열로 응답한 ',(done)=>{
             request(app)
                 .get('/users')
@@ -30,6 +39,13 @@ describe('GET /users는',()=> {
     })
 })
 describe('GET /users/:id는 ',()=>{
+    const users = [
+        {name : 'alice'},{name : 'bek'},{name : 'chris'},
+    ]
+    before(()=>models.sequelize.sync({force:true}))
+    before(()=>{
+        return models.User.bulkCreate(users)
+    })
     describe('성공시', ()=> {
         it('id가 1인 유저 객체를 반환한다.',(done)=>{
             request(app)
@@ -56,6 +72,13 @@ describe('GET /users/:id는 ',()=>{
     })
 })
 describe('DELETE /users/:id는',()=>{
+    const users = [
+        {name : 'alice'},{name : 'bek'},{name : 'chris'},
+    ]
+    before(()=>models.sequelize.sync({force:true}))
+    before(()=>{
+        return models.User.bulkCreate(users)
+    })
     describe('성공시',()=>{
         it('204를 응답한다.',(done)=>{
             request(app)
@@ -74,6 +97,13 @@ describe('DELETE /users/:id는',()=>{
     })
 })
 describe('POST /users',()=>{
+    const users = [
+        {name : 'alice'},{name : 'bek'},{name : 'chris'},
+    ]
+    before(()=>models.sequelize.sync({force:true}))
+    before(()=>{
+        return models.User.bulkCreate(users)
+    })
     describe('성공시',()=>{
         let name = 'daniel',
             body;
@@ -112,7 +142,14 @@ describe('POST /users',()=>{
         })
     })
 })
-describe('PUT /users',()=>{
+describe.only('PUT /users',()=>{
+    const users = [
+        {name : 'alice'},{name : 'bek'},{name : 'chris'},
+    ]
+    before(()=>models.sequelize.sync({force:true}))
+    before(()=>{
+        return models.User.bulkCreate(users)
+    })
     describe('성공 시',()=>{
         it('변경된 name을 응답한다', done=>{
             const name = 'chally';
